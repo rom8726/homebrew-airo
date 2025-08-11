@@ -1,14 +1,17 @@
 class Airo < Formula
   desc "Spec-first Golang project scaffold generator"
   homepage "https://github.com/rom8726/airo"
-  url "https://github.com/rom8726/airo/archive/refs/tags/v1.12.0.tar.gz"
-  sha256 "077ebf011a8acc8c77a69177a68ac4ee46f74079fd704e4874c889cb85c5146f"
+  url "https://github.com/rom8726/airo/releases/download/v1.12.0/airo_darwin_amd64"
+  sha256 "53e196bfa025c479d75b0e6670408acf1dae4b69b4459a4db55f9d89d0d87391"
   license "Apache-2.0"
 
-  depends_on "go" => :build
+  on_arm do
+    url "https://github.com/rom8726/airo/releases/download/v1.12.0/airo_darwin_arm64"
+    sha256 "b2f79dc4448fe26d10191f520b6c93f5ad1058622f4cac4cc27da47daf9b56a8"
+  end
 
   def install
-    system "go", "build", *std_go_args(ldflags: "-s -w"), "./cmd/airo"
+    bin.install "airo_darwin_#{Hardware::CPU.arch == "arm64" ? "arm64" : "amd64"}" => "airo"
   end
 
   test do
